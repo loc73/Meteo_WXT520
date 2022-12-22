@@ -1,17 +1,30 @@
 #include <Arduino.h>
 
+String chaine;
+int cptr =0;
 void setup() {
   Serial.begin(9600);
-  Serial1.begin(9600);
-  pinMode(LED_BUILTIN, OUTPUT);
+  Serial2.begin(19200);
   
 }
 
 void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);
-  Serial.println("hello world 0");
-  Serial1.println("hello world 1");
-  delay(2000);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(2000);
-}
+  
+  
+  while (Serial2.available()>0){
+    char caractere =  Serial2.read();
+    //Serial.print("caractère boucle: ");
+    chaine.concat(caractere);
+    //Serial.println(chaine);
+    delay(15);
+  }
+  
+  if( chaine != ""){
+    Serial.println(chaine);
+    chaine ="";
+    cptr++;
+    delay(1000);
+    Serial2.println("0R1");
+    cptr =0;
+  }
+}  
