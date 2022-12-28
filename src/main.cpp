@@ -1,11 +1,22 @@
 #include <Arduino.h>
+#include <WXT520.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
 
 String chaine;
 int cptr =0;
+
+//déclaration d'un objet capteur méteo
+WXT520 My_WXT520;
+
+//setup Wifi
+const char* ssid = "REPLACE_WITH_YOUR_SSID";
+const char* password = "REPLACE_WITH_YOUR_PASSWORD";
+
 void setup() {
   Serial.begin(9600);
   Serial2.begin(19200);
-  
+  Serial.println("Début programme:");
 }
 
 void loop() {
@@ -19,12 +30,11 @@ void loop() {
     delay(15);
   }
   
-  if( chaine != ""){
+  if(chaine != ""){
+    Serial.print("Chaine reçue: ");
     Serial.println(chaine);
+    My_WXT520.Conversion(chaine);
+    My_WXT520.Afficher_valeurs();
     chaine ="";
-    cptr++;
-    delay(1000);
-    Serial2.println("0R1");
-    cptr =0;
   }
 }  
