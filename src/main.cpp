@@ -2,6 +2,7 @@
 #include <WXT520.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <Password.h>
 
 String chaine;
 int cptr =0;
@@ -9,14 +10,15 @@ int cptr =0;
 //déclaration d'un objet capteur méteo
 WXT520 My_WXT520;
 
-//setup Wifi
-const char* ssid = "REPLACE_WITH_YOUR_SSID";
-const char* password = "REPLACE_WITH_YOUR_PASSWORD";
+
 
 void setup() {
   Serial.begin(9600);
   Serial2.begin(19200);
   Serial.println("Début programme:");
+  Serial.println(ssid);
+  Serial.println(password);
+  
 }
 
 void loop() {
