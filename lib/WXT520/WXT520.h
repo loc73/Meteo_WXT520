@@ -1,6 +1,7 @@
 class WXT520
 {
     private:
+    // définition de toutes les variables envoyées par la station. 
     int _addr;
     int _Dn;
     int _Dm;
@@ -24,12 +25,28 @@ class WXT520
     public:
     WXT520();
     int Get_addr();
-    char *Reset_precipitation();
+    char *Reset_intensite_precipitation();
     void Conversion(String chaine);
-    int Get_Dm();
-    float Get_Ta();
-    float Get_Hp();
     void Afficher_valeurs();
+
+    int Direction_Vent_min(); 
+    int Direction_Vent_moy();
+    int Direction_Vent_max();
+    float Vitesse_Vent_min();
+    float Vitesse_Vent_moy();
+    float Vitesse_Vent_max();
+    float Temperature();
+    float Humidite();
+    float Pression();
+    float Accumulation_precipitation();
+    float Duree_precipitation();
+    float Intensite_precipitation();
+    float Accumulation_grele();
+    int Duree_grele();
+    float Intensite_grele();
+    float Intensite_max_precipitation();
+    float Intensite_max_grele();
+
     
 };
 
@@ -80,17 +97,11 @@ int WXT520::Get_addr(){
     return _addr;
 }
 
-int WXT520::Get_Dm(){
-    return _Dm;
-}
 
-float WXT520::Get_Ta(){
-    return _Ta;
-}
-
-
-
-char *WXT520::Reset_precipitation(){
+char *WXT520::Reset_intensite_precipitation(){
+    /* cette fonction permet de retourner la commande pour pour réinitialiser
+       les valeurs Ri, Rp, Hi, Hp.
+    */
     static char buf[6] = "0XZRU";
     return buf;
 }
@@ -187,4 +198,73 @@ void WXT520::Conversion(String chaine){
       chaine = chaine.substring(idx_1+1, chaine.length()); // on supprime le morceau qu'on vient de tester
       idx_1 = chaine.indexOf(',');
     }
+
+}
+
+int WXT520::Direction_Vent_min(){
+    return _Dn;
+}
+
+int WXT520::Direction_Vent_moy(){
+    return _Dm;
+}
+
+int WXT520::Direction_Vent_max(){
+    return _Dx;
+}
+
+float WXT520::Vitesse_Vent_min(){
+    return _Sn;
+}
+
+float WXT520::Vitesse_Vent_moy(){
+    return _Sm;
+}
+
+float WXT520::Vitesse_Vent_max(){
+    return _Sx;
+}
+
+float WXT520::Temperature(){
+    return _Ta;
+}
+
+float WXT520::Humidite(){
+    return _Ua;
+}
+
+float WXT520::Pression(){
+    return _Pa;
+}
+
+float WXT520::Accumulation_precipitation(){
+    return _Rc;
+}
+
+float WXT520::Duree_precipitation(){
+    return _Rd;
+}
+
+float WXT520::Intensite_precipitation(){
+    return _Ri;
+}
+
+float WXT520::Accumulation_grele(){
+    return _Hc;
+}
+
+int WXT520::Duree_grele(){
+    return _Hd;
+}
+
+float WXT520::Intensite_grele(){
+    return _Hi;
+}
+
+float WXT520::Intensite_max_precipitation(){
+    return _Rp;
+}
+
+float WXT520::Intensite_max_grele(){
+return _Hp;
 }
