@@ -115,19 +115,11 @@ void WXT520::Conversion(String chaine){
         int idx_2 = Parse_datas.indexOf('=');
         if (idx_2 != -1){
             String Label = Parse_datas.substring(0,idx_2);
-            Serial.print("Label: ");
-            Serial.println(Label);
             Parse_datas = Parse_datas.substring(idx_2+1, Parse_datas.length());
-            Serial.print("Datas: ");
-            Serial.println(Parse_datas);
 
             if(String(Label) == "Dm"){
                 Parse_datas = Parse_datas.substring(0,Parse_datas.length()-1); // on supprime le dernier caractère
-                Serial.print("Data dans if Dm: ");
-                Serial.println(Parse_datas);
                 _Dm = Parse_datas.toInt();
-                Serial.print("Data enregistrees Dm: ");
-                Serial.println(_Dm);
             }
             else if (String(Label) == "Dn"){
                 Parse_datas = Parse_datas.substring(0,Parse_datas.length()-1); // on supprime le dernier caractère
@@ -193,8 +185,7 @@ void WXT520::Conversion(String chaine){
                 Parse_datas = Parse_datas.substring(0,Parse_datas.length()-1); // on supprime le dernier caractère
                 _Hp = Parse_datas.toFloat();
             }
-        }   
-    
+        }  
       chaine = chaine.substring(idx_1+1, chaine.length()); // on supprime le morceau qu'on vient de tester
       idx_1 = chaine.indexOf(',');
     }
