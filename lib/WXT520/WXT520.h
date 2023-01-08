@@ -108,18 +108,27 @@ char *WXT520::Reset_intensite_precipitation(){
 
 void WXT520::Conversion(String chaine){
     
+    // on recherche le caractère ',' pour savoir ou couper la chaine
     int idx_1 = chaine.indexOf(',');
+    bool Sortie = false;
     while (idx_1 != -1)
     {
-        String Parse_datas = chaine.substring(0,idx_1); // on coupe le morceau de chaine entre les virgules
-        int idx_2 = Parse_datas.indexOf('=');
+        String Parse_datas = "";
+        if (!Sortie){
+            Parse_datas = chaine.substring(0,idx_1); // on coupe le morceau de chaine entre les virgules
+        }
+        else{
+            Parse_datas = chaine;   // pas besoin de couper pour la dernière valeur
+        }
+          
+        int idx_2 = Parse_datas.indexOf('=');  // on recherche le caractère '=' pour connaitre le type de donnees et la valeur
         if (idx_2 != -1){
-            String Label = Parse_datas.substring(0,idx_2);
-            Parse_datas = Parse_datas.substring(idx_2+1, Parse_datas.length());
+            String Label = Parse_datas.substring(0,idx_2);  // on recherche le type de donnes (temp, hum, vitesse vent ...)
+            Parse_datas = Parse_datas.substring(idx_2+1, Parse_datas.length()); //la donnees se situe après le '='
 
             if(String(Label) == "Dm"){
-                Parse_datas = Parse_datas.substring(0,Parse_datas.length()-1); // on supprime le dernier caractère
-                _Dm = Parse_datas.toInt();
+                Parse_datas = Parse_datas.substring(0,Parse_datas.length()-1); // on supprime le dernier caractère qui correspond à l'unité
+                _Dm = Parse_datas.toInt(); // on affecte la valeur à la bonne variable
             }
             else if (String(Label) == "Dn"){
                 Parse_datas = Parse_datas.substring(0,Parse_datas.length()-1); // on supprime le dernier caractère
@@ -187,75 +196,79 @@ void WXT520::Conversion(String chaine){
             }
         }  
       chaine = chaine.substring(idx_1+1, chaine.length()); // on supprime le morceau qu'on vient de tester
-      idx_1 = chaine.indexOf(',');
+      idx_1 = chaine.indexOf(',');  // on recherche un nouveau caractère ','
+      
+      if (idx_1 == -1 && Sortie == false) { // on veut refaire un dernier traitement même sans le caractère ','
+        Sortie = true;
+        idx_1 = 0;
+      }
     }
-
 }
-
+//fct de récupération de direction vent min Dn
 int WXT520::Direction_Vent_min(){
     return _Dn;
 }
-
+//fct de récupération direction vent moy Dm
 int WXT520::Direction_Vent_moy(){
     return _Dm;
 }
-
+//fct de récupération direction vent max Dx
 int WXT520::Direction_Vent_max(){
     return _Dx;
 }
-
+//fct de récupération vitesst vent min Sn
 float WXT520::Vitesse_Vent_min(){
     return _Sn;
 }
-
+//fct de récupération vitesse vent moy Sm
 float WXT520::Vitesse_Vent_moy(){
     return _Sm;
 }
-
+//fct de récupération vitesse vent max Sx
 float WXT520::Vitesse_Vent_max(){
     return _Sx;
 }
-
+//fct de récupération température Ta
 float WXT520::Temperature(){
     return _Ta;
 }
-
+//fct de récupération humidité Ua
 float WXT520::Humidite(){
     return _Ua;
 }
-
+//fct de récupération pression Pa
 float WXT520::Pression(){
     return _Pa;
 }
-
+//fct de récupération accumulation precipitation Rc
 float WXT520::Accumulation_precipitation(){
     return _Rc;
 }
-
+//fct de récupération durée precipitation Rd
 float WXT520::Duree_precipitation(){
     return _Rd;
 }
-
+//fct de récupération intenssité précipitation Ri
 float WXT520::Intensite_precipitation(){
     return _Ri;
 }
-
+//fct de récupération accumulation grêle Hc
 float WXT520::Accumulation_grele(){
     return _Hc;
 }
-
+//fct de récupération durée grêle Hd
 int WXT520::Duree_grele(){
     return _Hd;
 }
-
+//fct de récupération intensité grêle Hi
 float WXT520::Intensite_grele(){
     return _Hi;
 }
-
+//fct de récupération max précipitation Rp
 float WXT520::Intensite_max_precipitation(){
     return _Rp;
 }
-
+//fct de récupération max grêle hp
 float WXT520::Intensite_max_grele(){
 return _Hp;
 }
