@@ -193,7 +193,7 @@ void loop() {
   currentTime=millis(); // mise à jour du temps actuel
 
     // test sur boucle de 15min
-  if((currentTime-previousTime_temp)>Interval_temp_15min){
+  if((currentTime-previousTime_temp) > Interval_temp_15min){
     previousTime_temp=currentTime;
     Tps_15min_ok = true;
     cptr_1h++;
@@ -229,16 +229,21 @@ void loop() {
     recup_tri_donnees();
     infos_completes = false;
   }
-  else  // sinon on regarde si il y a qqch sur la liaison série
-  {
+  // sinon on regarde si il y a qqch sur la liaison série
+  // on doit au minimum avoir des données toutes les minutes.
+  else{
     recup_tri_donnees();
-
-    if (My_WXT520.Vitesse_Vent_moy() > 1)
-    {
+    // si le vent est supérieur à 1 m/s ou 1km/h alors on envoie toutes les valeurs correspondants au vent
+    if (My_WXT520.Vitesse_Vent_moy() > 1){
+      dmd_manuelle(2);
+      delay(150);
       envoie_vent = true;
     }
-
+    // si il y a des précipitations alors on envoie plus souvent toutes les valeurs
     if (My_WXT520.Intensite_precipitation() > 0){
+      dmd_manuelle(3);
+      delay(150);
+      recup_tri_donnees();
       envoie_preci = true;
     }
 
